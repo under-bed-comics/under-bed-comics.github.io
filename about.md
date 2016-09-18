@@ -4,4 +4,4 @@ title: About
 permalink: /about/
 ---
 
-Under Bed Comics are published by Elliott Baxter Haggie
+{% include icon-github.html username=site.github_username %}

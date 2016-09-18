@@ -7,11 +7,11 @@
 
 # Site settings
 title: Under Bed Comics
-email: under-bed-comics@gmail.com
-description: Copyright Under Bed Comics 2016
+email:
+description: 
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://under-bed-comics.com" # the base hostname & protocol for your site
-twitter_username: under-bed-comics
+twitter_username:
 github_username:  under-bed-comics
 
 # Build settings
