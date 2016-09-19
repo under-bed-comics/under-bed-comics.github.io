@@ -11,17 +11,31 @@
 }
 
 .site-title {
-    font-size: 26px;
+    @media (max-width: 700px) {
+        font-size: 50px;
+    }
+    @media (max-width: 450px) {
+        font-size: 30px;
+    }
+    @media (min-width: 700px) {
+        font-size: 80px;
+    }
     font-weight: 300;
+    font-style: italic;
     line-height: 56px;
     letter-spacing: -1px;
     margin-bottom: 0;
-    float: left;
 
+    color: white;
     &,
     &:visited {
-        color: $grey-color-dark;
+        color: white;
     }
+
+}
+
+.title {
+  text-align: center;
 }
 
 .site-nav {
