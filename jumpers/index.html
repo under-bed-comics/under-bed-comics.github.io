@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Jumpers</title>
+  <style>
+    body {
+      background-color: green;
+    }
+    #canvas {
+      background-color: lightblue;
+    }
+  </style>
+</head>
+<body>
+
+  <a href="/">Back</a>
+  <hr/>
+  <canvas id="canvas"></canvas>
+
+
+</body>
+<script>
+
+(function () {
+
+  var canvasHeight = 512;
+  var canvasWidth = 512;
+
+  // Handle keyboard controls
+  var keysDown = {};
+
+  addEventListener("keydown", function (e) {
+  	keysDown[e.keyCode] = true;
+  }, false);
+
+  addEventListener("keyup", function (e) {
+  	delete keysDown[e.keyCode];
+    // console.log('I like to move it, move it! ', e.keyCode);
+  }, false);
+
+  var jumpy = {
+    x: canvasWidth / 2,
+    y: 0,
+    speed: 100
+  };
+
+  var update = function(modifier) {
+    // is the left key down?
+    if (keysDown[37]) {
+        jumpy.x = jumpy.x - jumpy.speed * modifier;
+    }
+
+    // is the up key down?
+    if (keysDown[38]) {
+        jumpy.y = jumpy.y + jumpy.speed * modifier;
+    }
+
+    // is the right key down?
+    if (keysDown[39]) {
+        jumpy.x = jumpy.x + jumpy.speed * modifier;
+    }
+
+    // is the up key down?
+    if (keysDown[40]) {
+        jumpy.y = jumpy.y - jumpy.speed * modifier;
+    }
+
+    if (jumpy.x < 0) {
+      jumpy.x = 0;
+    }
+
+    if (jumpy.x > canvasWidth-16) {
+      jumpy.x = canvasWidth-16;
+    }
+
+    if (jumpy.y < 0) {
+      jumpy.y = 0;
+    }
+
+    if (jumpy.y > canvasHeight-26) {
+      jumpy.y = canvasHeight-26;
+    }
+  }
+
+  var canvas = document.getElementById("canvas");
+  canvas.width = canvasWidth;
+  canvas.height = canvasHeight;
+  var ctx = canvas.getContext("2d");
+
+  var translateY = function(y) {
+    return canvasHeight - y;
+  };
+
+  var line = function(x1, y1, x2, y2) {
+    y1 = translateY(y1);
+    y2 = translateY(y2);
+    ctx.moveTo(x1,y1);
+    ctx.lineTo(x2,y2);
+  }
+
+  var circle = function(x, y, radius) {
+    y = translateY(y);
+    ctx.moveTo(x+radius, y);
+    ctx.arc(x, y, radius, 0, Math.PI*2, true);
+  }
+
+  var drawJumpy = function(x, y) {
+    ctx.beginPath();
+    line(x+0, y+0, x+8, y+8);
+    line(x+8, y+8,x+16, y+0);
+    line(x+8, y+8, x+8,y+18);
+    line(x+0,y+13,x+16,y+13);
+    circle(x+8, y+22, 4);
+    ctx.stroke();
+  };
+
+  ctx.fillStyle = "lightblue";
+
+  var render = function() {
+    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    drawJumpy(jumpy.x, jumpy.y);
+  };
+
+  // The main game loop
+  var then = Date.now();
+  var main = function () {
+    var now = Date.now();
+	  var delta = now - then;
+
+	  update(delta / 1000);
+	  render();
+
+    then = now;
+
+  	// Request to do this again ASAP
+  	requestAnimationFrame(main);
+  };
+
+  main();
+})();
+
+</script>
+</html>
