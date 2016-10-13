@@ -114,11 +114,37 @@
     ctx.stroke();
   };
 
-  ctx.fillStyle = "lightblue";
+
+
+  var drawHeart = function(x, y) {
+
+    ctx.beginPath();
+    line(0+x, 6+y, 6+x, 0+y);
+    line(6+x, 0+y, 12+x, 6+y);
+    ctx.arc(9+x, translateY(6+y), 3, 0, Math.PI, true);
+    ctx.arc(3+x, translateY(6+y), 3, 0, Math.PI, true);
+    ctx.fillStyle = "pink";
+    ctx.fill();
+  };
+
+  var drawBox = function (x, y) {
+    ctx.fillStyle = "white";
+    ctx.fillRect(x, translateY(y), 12, 12);
+  };
 
   var render = function() {
+    ctx.fillStyle = "lightblue";
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
     drawJumpy(jumpy.x, jumpy.y);
+
+    for (var i=0; i<12; ++i) {
+      drawHeart(i * 14, canvasHeight-14);
+    }
+
+    for (var j=0; j<6; ++j) {
+      drawBox(((j+i) * 14), canvasHeight -2);
+    }
+
   };
 
   // The main game loop

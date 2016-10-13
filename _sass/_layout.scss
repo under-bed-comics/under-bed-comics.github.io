@@ -36,7 +36,7 @@
         -2px -2px 0 #000,
         2px -2px 0 #000,
         -2px 2px 0 #000,
-        2px 2px 0 #000;  
+        2px 2px 0 #000;
 }
 
 .title {
@@ -196,6 +196,15 @@
 }
 
 .post-list {
+    margin-left: 0;
+    list-style: none;
+
+    > li {
+        margin-bottom: $spacing-unit;
+    }
+}
+
+.game-list {
     margin-left: 0;
     list-style: none;
 
