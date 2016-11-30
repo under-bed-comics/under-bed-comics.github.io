@@ -1,5 +1,6 @@
 (function () {
 
+  var SPACE = 32;
   var UP = 38;
   var RIGHT = 39;
   var LEFT = 37;
@@ -45,6 +46,8 @@
       return speed;
     } else if (keysDown[RIGHT]) {
       return speed * -1;
+    } else if (keysDown[SPACE]) {
+      return 0;
     }
 
     return dx;
@@ -59,7 +62,27 @@
     return dy;
   };
 
-  var nextJumpy = function(oldJumpy, timeDelta, keysDown, onSurface) {
+  var onPlaform = function(timeDelta, oldJumpy, platforms) {
+    var ny = oldJumpy.y - oldJumpy.dy * timeDelta;
+
+    for (var i=0; i<platforms.length; ++i) {
+      var platform = platforms[i];
+      if (oldJumpy.y > platform.y && ny < platform.y && (oldJumpy.x + 15) > platform.x && (oldJumpy.x) < platform.x + platform.w) {
+        return true;
+      }
+    }
+
+    return false;
+  };
+
+  var nextJumpy = function(oldJumpy, timeDelta, keysDown, platforms) {
+    var onSurface = oldJumpy.y === 0;
+
+    if (onPlaform(timeDelta, oldJumpy, platforms)) {
+      oldJumpy.dy = 0;
+      onSurface = true;
+    }
+
     var newJumpy = {
       x: oldJumpy.x - oldJumpy.dx * timeDelta,
       y: oldJumpy.y - oldJumpy.dy * timeDelta,
@@ -93,14 +116,9 @@
   var nextWorld = function(oldWorld, keysDown) {
     var timeDelta = Date.now() - oldWorld.time;
 
-
-
-    var onSurface = oldWorld.jumpy.y === 0;
-
-
     return {
       time: oldWorld.time + timeDelta,
-      jumpy: nextJumpy(oldWorld.jumpy, timeDelta/1000, keysDown, onSurface),
+      jumpy: nextJumpy(oldWorld.jumpy, timeDelta/1000, keysDown, oldWorld.platforms),
       platforms: oldWorld.platforms,
       lava: oldWorld.lava,
     };
@@ -148,6 +166,8 @@
     line(x+0,y+13,x+16,y+13);
     circle(x+8, y+22, 4);
     ctx.stroke();
+
+    ctx.fillText(Math.floor(x) + ', ' +  Math.floor(y), 400, 10);
   };
 
   var drawHeart = function(x, y) {
