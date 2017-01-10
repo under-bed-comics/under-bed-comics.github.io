@@ -2,7 +2,7 @@
 layout: post
 title:  "Poo Patrol vs Pigs"
 date:   2016-09-18 01:55:16 -0700
-categories: poo-patrol comic
+categories: comic
 ---
 
 ![](/images/poo-patrol/vs-pigs-01.jpg)

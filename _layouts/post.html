@@ -7,7 +7,7 @@ layout: default
     <h1 class="post-title" itemprop="name headline">{{ page.title }}</h1>
   </header>
 
-  <div class="post-content" itemprop="articleBody">
+  <div class="post-content {{ page.categories }}" itemprop="articleBody">
     {{ content }}
   </div>
 

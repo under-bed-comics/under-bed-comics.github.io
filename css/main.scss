@@ -29,6 +29,11 @@ $on-palm:          600px;
 $on-laptop:        800px;
 
 
+div.story {
+  background-color: #ffe;
+  padding: 1em;
+  border-radius: 1em;
+}
 
 // Use media queries like this:
 // @include media-query($on-palm) {
