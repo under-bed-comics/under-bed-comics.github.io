@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <title>Encrypt</title>
+        <style> 
+        td {
+            border: solid black 1px;
+            text-align: center;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        table {
+        }
+
+        body {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+
+        }
+        </style>
+    </head>
+    <body>
+        <form>
+            <div>
+                <label for="key">key</label>
+                <input name="key" id="key" value="houstonnasa" />
+            </div>
+            <div>
+                <label for="text">plain text</label>
+                <input name="text" id="text" value="morningguys" />
+            </div>
+            <div>
+                <label for="cipher">cipher</label>
+                <input name="cipher" id="cipher" />
+            </div>
+            <button id="encode">encode</button>
+            <button id="decode">decode</button>
+        </form>
+        <section>
+        <h2>How the Vigenere square works</h2>
+        <p>First what you would do is you can find the row with the same letter as in the key.</p>
+        <p>Then you can go down it to find the letter from the cipher.</p>p>  </section>
+        <table id="square">
+
+        </table>
+
+        <script>
+            var alphabet = "abcdefghijklmnopqrstuvwxyz";
+
+            var getRow = function(index) {
+                var start = alphabet.substr(index);
+                var rest = alphabet.substr(0, index);
+                return start + rest;
+            };
+
+            var square = document.querySelector('#square');
+            
+            for (var l=0; l < alphabet.length; ++l) {
+                
+                var tr = document.createElement('tr');
+                
+                var row = getRow(l);
+                for (var m=0; m < row.length; ++m) {
+                    var letter = row.charAt(m);
+                    var td = document.createElement('td');
+                    td.innerText = letter;
+                    tr.appendChild(td);
+                }
+                
+                square.appendChild(tr);
+            };
+
+            document.querySelector('#encode').onclick = function(e) {
+                e.preventDefault();
+
+                var key = document.querySelector('#key').value;
+                var plain = document.querySelector('#text').value;
+
+                var encodeLetter = function (letter, position) {
+                    var otherLetter = key.charAt(position);
+                    var otherPos = alphabet.indexOf(otherLetter);
+                    var row = getRow(otherPos);
+
+                    var letterPos = alphabet.indexOf(letter);
+                    return row[letterPos];
+                };
+
+                var letters = plain.split('');
+                var cipher = letters.map(encodeLetter);
+
+                document.querySelector('#cipher').value = cipher.join('');
+            };
+
+            document.querySelector('#decode').onclick = function(e) {
+                e.preventDefault();
+
+                var key = document.querySelector('#key').value;
+                var cipher = document.querySelector('#cipher').value;
+
+                var decodeLetter = function (letter, position) {
+                    var otherLetter = cipher.charAt(position);
+                    var otherPos = alphabet.indexOf(letter);
+                    var row = getRow(otherPos);
+                    var letterPos = row.indexOf(otherLetter);                    
+                    return alphabet[letterPos];
+                };
+
+                var letters = key.split('');
+                var plain = letters.map(decodeLetter);
+
+                document.querySelector('#text').value = plain.join('');
+            };            
+        </script>
+    </body>
+
+</html>
