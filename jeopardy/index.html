@@ -2,81 +2,11 @@
 <html>
     <head>
         <title>Jeopardy!</title>
-        <style>
-            body {
-                background-color: black;
-                font-family: sans-serif;
-                user-select: none;
-            }
-
-            table {
-                margin: 1vw auto;
-                border: 1vw solid black;
-                border-collapse: collapse; 
-            }
-
-            th {
-                background-color: blue;
-                color: white;
-                padding: 1vw;
-                font-size: 3vw;
-                border: 1vw solid black;
-                border-bottom: 2vw solid black;
-                width: 20%;
-            }
-            
-            td {
-                font-size: 4vw;
-                background-color: blue;
-                color: yellow;
-                text-align: center;
-                padding: 1vw;
-                border: 1vw solid black;
-                cursor: pointer;
-            }
-
-            .question {
-                display: flex;
-                position: fixed;
-                top: 2vw;
-                left: 2vw;
-                bottom: 2vw;
-                right: 2vw;
-                font-size: 8vw;
-                
-                
-                background-color: blue;
-                height: 90%;
-                align-items: center;
-                padding: 2vw;
-            }
-
-            .hidden {
-                visibility: hidden;
-            }
-            
-            .done {
-                color: blue;
-            }
-
-            p {
-                text-align: center;
-                color: white;
-                flex: 1;
-            }
-
-            img {
-                max-height: 40vw;
-                max-width: 40vw;
-                flex: 1;
-                padding: 2vw;
-            }
-        </style>
+        <link rel="stylesheet" type="text/css" href="jeopardy.css"/>
     </head>
     <body id="body">
         <table id="board" class="board"></table>
-        <div id="question" class="question hidden">
-        </div>
+        <div id="question" class="question hidden" />        
     </div>
     </body>
     <script src="jeopardy.js" ></script>
