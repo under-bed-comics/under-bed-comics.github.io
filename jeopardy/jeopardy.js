@@ -1,6 +1,8 @@
-
-
 var values = [400, 800, 1200,  1600, 2000];
+
+var pictures = {
+    'This code square is named after a Roman architect': 'vigenere.svg',
+};
 
 var code = [
     'This is usually abbreviated as  WWW in a URL bar', 
@@ -31,7 +33,7 @@ var energy = [
     'It takes 20 years for this machine to pay itself off',
     'When something is moving we call it this energy',
     'You use water to make this electricity ',
-    'He wrote that E=MC2'
+    'He wrote that E=mc²'
 ];
 
 var space = [
@@ -50,9 +52,7 @@ var columns = [
     {title: 'Space', questions: space},
 ];
 
-
-var board = document.createElement('table');
-document.body.appendChild(board);
+var board = document.getElementById('board');
 var header = document.createElement('tr');
 board.appendChild(header);
 columns.forEach(function(column) {
@@ -71,8 +71,29 @@ values.forEach(function(value, idx) {
         td.innerHTML = '$' + value;
         row.appendChild(td);
         td.onclick = function() {
-            console.log(value, column.questions[idx]);
-            td.innerText = ''
+            td.setAttribute('class', 'done');
+            var question = document.getElementById('question');
+            question.setAttribute('class', 'question');
+
+            board.setAttribute('class', 'board hidden');
+            
+            var q = column.questions[idx];
+            var picture = pictures[q];
+            var p = document.createElement('p');
+            p.innerText = q;
+            question.appendChild(p);
+
+            if (picture) {
+                var img = document.createElement('img');
+                img.setAttribute('src', picture);
+                question.appendChild(img);
+            } 
+            
+            question.onclick = function() {
+                question.setAttribute('class', 'question hidden');
+                question.innerHTML = ''
+                board.setAttribute('class', 'board');
+            }
         };
     });
 });

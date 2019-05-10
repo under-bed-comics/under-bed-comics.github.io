@@ -6,6 +6,7 @@
             body {
                 background-color: black;
                 font-family: sans-serif;
+                user-select: none;
             }
 
             table {
@@ -35,19 +36,29 @@
             }
 
             .question {
+                display: flex;
                 position: fixed;
                 top: 2vw;
                 left: 2vw;
                 bottom: 2vw;
                 right: 2vw;
-                font-size: 4vw;
-                display: none;
+                font-size: 8vw;
+                
                 
                 background-color: blue;
                 height: 90%;
                 align-items: center;
+                padding: 2vw;
+            }
+
+            .hidden {
+                visibility: hidden;
             }
             
+            .done {
+                color: blue;
+            }
+
             p {
                 text-align: center;
                 color: white;
@@ -63,9 +74,8 @@
         </style>
     </head>
     <body id="body">
-        <div id="question" class="question">
-            <p>This code square is named after a Roman architect</p>
-            <img src="vigenere.svg" />
+        <table id="board" class="board"></table>
+        <div id="question" class="question hidden">
         </div>
     </div>
     </body>
