@@ -63,7 +63,12 @@ columns.forEach(function(column) {
 });
 
 function columnDone (column) {
-    return (column.answered === column.questions.length);
+    for (var q=0; q<questions.length; ++q) {
+        if (!questions[q].answered) {
+            return false;
+        }
+    }
+    return true;
 }
 
 function areWeDoneYet() {
@@ -107,30 +112,16 @@ values.forEach(function(value, idx) {
         row.appendChild(td);
         td.onclick = function() {
             td.setAttribute('class', 'done');
-            // var question = document.getElementById('question');
-            // question.setAttribute('class', 'question');
 
-            // board.setAttribute('class', 'board hidden');
-            
             var q = column.questions[idx];
             var picture = pictures[q];
             var question = askQuestion(q, picture)
-            
-            // var p = document.createElement('p');
-            // p.innerText = q;
-            // question.appendChild(p);
-
-            // if (picture) {
-            //     var img = document.createElement('img');
-            //     img.setAttribute('src', picture);
-            //     question.appendChild(img);
-            // } 
             
             question.onclick = function() {
                 question.setAttribute('class', 'question hidden');                
                 board.setAttribute('class', 'board');
 
-                column.answered += 1;
+                q.answered = true;
 
                 if (columnDone(column)) {
                     var colCell = document.getElementById(column.title);
