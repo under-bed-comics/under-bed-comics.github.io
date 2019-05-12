@@ -45,11 +45,11 @@ var space = [
 ];
 
 var columns = [
-    {title: 'Code', questions: code},
-    {title: 'Movies', questions: movies},
-    {title: 'Canadian History', questions: canadaHistory},
-    {title: 'Energy', questions: energy},
-    {title: 'Space', questions: space},
+    {title: 'Code', questions: code, answered: 0},
+    {title: 'Movies', questions: movies, answered: 0},
+    {title: 'Canadian History', questions: canadaHistory, answered: 0},
+    {title: 'Energy', questions: energy, answered: 0},
+    {title: 'Space', questions: space, answered: 0},
 ];
 
 var board = document.getElementById('board');
@@ -57,10 +57,45 @@ var header = document.createElement('tr');
 board.appendChild(header);
 columns.forEach(function(column) {
     var th = document.createElement('th');
+    th.setAttribute('id', column.title);
     th.innerText = column.title;
     header.appendChild(th);
 });
 
+function columnDone (column) {
+    return (column.answered === column.questions.length);
+}
+
+function areWeDoneYet() {
+    const done = columns.reduce(function(count, column) {
+        if (columnDone(column)) {
+            ++count;
+        }
+        return count;
+    }, 0);
+
+    return done === columns.length;
+}
+
+function askQuestion(q, picture, extraClass) {
+    var question = document.getElementById('question');
+    question.innerHTML = ''
+    question.setAttribute('class', 'question ' + extraClass);
+
+    board.setAttribute('class', 'board hidden');
+
+    var p = document.createElement('p');
+    p.innerText = q;
+    question.appendChild(p);
+
+    if (picture) {
+        var img = document.createElement('img');
+        img.setAttribute('src', picture);
+        question.appendChild(img);
+    } 
+
+    return question;
+}
 
 values.forEach(function(value, idx) {
     var row = document.createElement('tr');
@@ -72,28 +107,61 @@ values.forEach(function(value, idx) {
         row.appendChild(td);
         td.onclick = function() {
             td.setAttribute('class', 'done');
-            var question = document.getElementById('question');
-            question.setAttribute('class', 'question');
+            // var question = document.getElementById('question');
+            // question.setAttribute('class', 'question');
 
-            board.setAttribute('class', 'board hidden');
+            // board.setAttribute('class', 'board hidden');
             
             var q = column.questions[idx];
             var picture = pictures[q];
-            var p = document.createElement('p');
-            p.innerText = q;
-            question.appendChild(p);
+            var question = askQuestion(q, picture)
+            
+            // var p = document.createElement('p');
+            // p.innerText = q;
+            // question.appendChild(p);
 
-            if (picture) {
-                var img = document.createElement('img');
-                img.setAttribute('src', picture);
-                question.appendChild(img);
-            } 
+            // if (picture) {
+            //     var img = document.createElement('img');
+            //     img.setAttribute('src', picture);
+            //     question.appendChild(img);
+            // } 
             
             question.onclick = function() {
-                question.setAttribute('class', 'question hidden');
-                question.innerHTML = ''
+                question.setAttribute('class', 'question hidden');                
                 board.setAttribute('class', 'board');
+
+                column.answered += 1;
+
+                if (columnDone(column)) {
+                    var colCell = document.getElementById(column.title);
+                    colCell.setAttribute('class', 'done');
+                }
+
+                if (areWeDoneYet()) {
+                    finalJeopardy();
+                }
             }
         };
     });
 });
+
+function finalJeopardy() {
+
+    var q = askQuestion('Final Jeopardy!', undefined, 'final');
+    q.onclick = function() {
+        q = askQuestion('Games', undefined, 'category');
+        q.onclick = function() {
+            askQuestion('In this game created by Ninja Kiwi with multiple sequels monkeys pop "bloons" as they go past');
+        };
+    };    
+}
+
+function start() {
+    var q = askQuestion('Jeopardy!', undefined, 'final');
+    q.onclick = function() {
+        question.setAttribute('class', 'question hidden');       
+        board.setAttribute('class', 'board');
+    }
+}
+
+start();
