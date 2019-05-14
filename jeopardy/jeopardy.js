@@ -45,11 +45,11 @@ var space = [
 ];
 
 var columns = [
-    {title: 'Code', questions: code, answered: 0},
-    {title: 'Movies', questions: movies, answered: 0},
-    {title: 'Canadian History', questions: canadaHistory, answered: 0},
-    {title: 'Energy', questions: energy, answered: 0},
-    {title: 'Space', questions: space, answered: 0},
+    {title: 'Code', questions: code},
+    {title: 'Movies', questions: movies},
+    {title: 'Canadian History', questions: canadaHistory},
+    {title: 'Energy', questions: energy},
+    {title: 'Space', questions: space},
 ];
 
 var board = document.getElementById('board');
@@ -62,23 +62,8 @@ columns.forEach(function(column) {
     header.appendChild(th);
 });
 
-function columnDone (column) {
-    for (var q=0; q<questions.length; ++q) {
-        if (!questions[q].answered) {
-            return false;
-        }
-    }
-    return true;
-}
-
 function areWeDoneYet() {
-    const done = columns.reduce(function(count, column) {
-        if (columnDone(column)) {
-            ++count;
-        }
-        return count;
-    }, 0);
-
+    const done = document.querySelectorAll('#board th.done').length;
     return done === columns.length;
 }
 
@@ -106,7 +91,7 @@ values.forEach(function(value, idx) {
     var row = document.createElement('tr');
     board.appendChild(row);
 
-    columns.forEach(function(column) {
+    columns.forEach(function(column, c) {
         var td = document.createElement('td');
         td.innerHTML = '$' + value;
         row.appendChild(td);
@@ -121,9 +106,11 @@ values.forEach(function(value, idx) {
                 question.setAttribute('class', 'question hidden');                
                 board.setAttribute('class', 'board');
 
-                q.answered = true;
-
-                if (columnDone(column)) {
+                var query = '#board td:nth-child(' + (c+1) + ').done';
+                var answeredCells = document.querySelectorAll(query);
+                var questionsDone = answeredCells.length;
+                
+                if (column.questions.length === questionsDone) {
                     var colCell = document.getElementById(column.title);
                     colCell.setAttribute('class', 'done');
                 }
