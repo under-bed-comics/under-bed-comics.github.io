@@ -1,5 +1,5 @@
 body {
-    background-color: black;
+    background-color: #111;
     font-family: sans-serif;
     user-select: none;
     position: absolute;
@@ -14,27 +14,27 @@ body {
 
 table {
     margin: 1vw auto;
-    border: 1vw solid black;
+    border: 1vw solid #111;
     border-collapse: collapse; 
 }
 
 th {
-    background-color: blue;
-    color: white;
+    background-color: #11e;
+    color: #eee;
     padding: 1vw;
     font-size: 3vw;
-    border: 1vw solid black;
-    border-bottom: 2vw solid black;
+    border: 1vw solid #111;
+    border-bottom: 2vw solid #111;
     width: 20%;
 }
 
 td {
     font-size: 4vw;
-    background-color: blue;
-    color: yellow;
+    background-color: #11e;
+    color: #ee1;
     text-align: center;
     padding: 1vw;
-    border: 1vw solid black;
+    border: 1vw solid #111;
     cursor: pointer;
 }
 
@@ -48,7 +48,7 @@ td {
     font-size: 8vw;
     
     
-    background-color: blue; 
+    background-color: #11e; 
 
 
     height: 90%;
@@ -73,12 +73,12 @@ td {
 }
 
 .done {
-    color: blue;
+    color: #11e;
 }
 
 p {
     text-align: center;
-    color: white;
+    color: #eee;
     flex: 1;
 }
 
