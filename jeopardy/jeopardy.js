@@ -5,43 +5,68 @@ var pictures = {
 };
 
 var code = [
-    'This is usually abbreviated as  WWW in a URL bar', 
-    'Daily double', 
-    'This code square is named after a Roman architect',  // https://upload.wikimedia.org/wikipedia/commons/9/9a/Vigen%C3%A8re_square_shading.svg
-    'A common shift cipher was named after this roman leader, who also has a salad named after him', 
-    'He created the World Wide Web'
+    {q:'This is usually abbreviated as  WWW in a URL bar', 
+    as:['World Wide Web','Willie Wonkas Whoopers','Wide World Website','']}, 
+    {q:'Daily double', 
+    as:['','','','']}, 
+    {q:'This code square is named after a Roman architect', 
+    as:['Viguenere','Maximus','Ceaser','']},  // https://upload.wikimedia.org/wikipedia/commons/9/9a/Vigen%C3%A8re_square_shading.svg
+   {q: 'A common shift cipher was named after this roman leader, who also has a salad named after him', 
+   as:['Ceaser','Viguenere','Encycopaedius','']}, 
+    {q:'He created the World Wide Web', 
+    as:['Tim Berners-Lee','Steve Wozniak','Ted Nelson','Albert Einstein']},
 ];
 
 var movies = [
-    'In the Lord Of The Rings he serves Frodo',
-    'Mark Watney finds himself stranded on Mars',
-    'The songs in this rock movie have been recorded, like the album Smell the glove',
-    'Wade Watts searches for Hallidays Egg',
-    'An orphan finds himself among pickpocket friends'
+    {q:'In the Lord Of The Rings he serves Frodo', 
+    as:['Smeagle','Bilbo','Sam Gamgee','']},
+   {q: 'Mark Watney finds himself stranded on Mars', 
+   as:['The Martian','Mars Mission','Artemis','']},
+    {q:'The songs in this rock movie have been recorded, like the album Smell the glove', 
+    as:['Spinal Tap','School of Rock','Almost Famous','']},
+    {q:'Wade Watts searches for Hallidays Egg', 
+    as:['Ready Player 1','Easter','Inheritance Cycle','']},
+    {q:'An orphan finds himself among pickpocket friends', 
+    as:['Oliver','Annie','Over the Hedge','']},
 ];
 
 var canadaHistory = [
-    'He built Craigdarroch Castle ',
-    'This railway was built in 1881',
-    'Daily double',
-    'He invented the goalie mask',
-    'Indigenous children were sent to these schools'
+   {q: 'He built Craigdarroch Castle ', 
+   as:['Robert Dunsmeir','Walt Diseny','King Henry III','']},
+    {q:'This railway was built in 1881', 
+    as:['CPR','Canada Line','Great Railway','']},
+    {q:'Daily double', 
+    as:['','','','']},
+    {q:'He invented the goalie mask', 
+    as:['Jacques Plante','Patrick Roy','Wayne Gretzky','']},
+    {q:'Indigenous children were sent to these schools', 
+    as:['Residential Schools','Public Schools','Private Schools','']},
 ];
 
 var energy = [
-    'We use these machines to make electricity in a power outage',
-    'It takes 20 years for this machine to pay itself off',
-    'When something is moving we call it this energy',
-    'You use water to make this electricity ',
-    'He wrote that E=mc²'
+    {q:'We use these machines to make electricity in a power outage', 
+    as:['Generators','Turbines','Water Wheels','']},
+   {q: 'It takes 20 years for this machine to pay itself off', 
+   as:['Wind Turbine','Boat','Car','']},
+    {q:'When something is moving we call it this energy', 
+    as:['Kinetic','Wind','Potential','']},
+   {q: 'You use water to make this electricity ', 
+   as:['Hydro','Kinetic','Potential','']},
+    {q:'He wrote that E=mc²', 
+    as:['Albert Einstein','Newton','Franklin','']},
 ];
 
 var space = [
-    'This space station started in 1998',
-    'She wrote the computer software for the lunar landing',
-    'Canada\'s main contribution to the ISS was',
-    'This Astronaut was first on the moon',
-    'Daily double'
+    {q:'This space station started in 1998', 
+    as:['ISS','MIR','Spacelab','']},
+    {q:'This person wrote the computer software for the lunar landing', 
+    as:['Hamilton','Von Braun','Chris Hadfield','']},
+    {q:'Canada\'s main contribution to the ISS was', 
+    as:['Canadarm2','Module','Canadarm','']},
+    {q:'This Astronaut was first on the moon', 
+    as:['Neil Armstrong','Buzz Aldrin','Michael Collins','']},
+   {q: 'Daily double', 
+   as:['','','','']},
 ];
 
 var columns = [
@@ -87,6 +112,23 @@ function askQuestion(q, picture, extraClass) {
     return question;
 }
 
+function showAnswers (q) {
+    var answers = document.getElementById('answers');
+    answers.setAttribute('class', 'answers');
+    console.log(q.as);
+
+    q.as.forEach(function(a, i) {
+        if (a) {
+            var button = document.createElement('button');
+            button.innerHTML = a;
+            answers.appendChild(button);
+            button.onclick = function() {
+                console.log(a, i === 0);
+            };
+        }
+    });
+}
+
 values.forEach(function(value, idx) {
     var row = document.createElement('tr');
     board.appendChild(row);
@@ -99,25 +141,29 @@ values.forEach(function(value, idx) {
             td.setAttribute('class', 'done');
 
             var q = column.questions[idx];
-            var picture = pictures[q];
-            var question = askQuestion(q, picture)
+            var picture = pictures[q.q];
+            var question = askQuestion(q.q, picture)
             
             question.onclick = function() {
-                question.setAttribute('class', 'question hidden');                
-                board.setAttribute('class', 'board');
-
-                var query = '#board td:nth-child(' + (c+1) + ').done';
-                var answeredCells = document.querySelectorAll(query);
-                var questionsDone = answeredCells.length;
+                question.setAttribute('class', 'question hidden'); 
                 
-                if (column.questions.length === questionsDone) {
-                    var colCell = document.getElementById(column.title);
-                    colCell.setAttribute('class', 'done');
-                }
+                showAnswers(q)
+                /// show answers
+                
+                // board.setAttribute('class', 'board');
 
-                if (areWeDoneYet()) {
-                    finalJeopardy();
-                }
+                // var query = '#board td:nth-child(' + (c+1) + ').done';
+                // var answeredCells = document.querySelectorAll(query);
+                // var questionsDone = answeredCells.length;
+                
+                // if (column.questions.length === questionsDone) {
+                //     var colCell = document.getElementById(column.title);
+                //     colCell.setAttribute('class', 'done');
+                // }
+
+                // if (areWeDoneYet()) {
+                //     finalJeopardy();
+                // }
             }
         };
     });

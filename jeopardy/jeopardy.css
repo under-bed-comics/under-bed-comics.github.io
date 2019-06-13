@@ -56,6 +56,33 @@ td {
     padding: 2vw;
 }
 
+.answers {
+    position: fixed;
+    top: 2vw;
+    left: 2vw;
+    bottom: 2vw;
+    right: 2vw;
+    
+
+
+    background-color: blue;
+
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.answers button {
+    font-size: 3vw;
+    display: block;
+    margin: 4vw;
+    padding: 0.5vw;
+    background-color: white;
+    border-radius: 1vw;
+    border: solid 0.5vw grey;
+}
+
 .category p {
     font-weight: bold;
     font-size: 10vw;
