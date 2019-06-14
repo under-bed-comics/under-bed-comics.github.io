@@ -73,6 +73,23 @@ td {
 
 }
 
+.restart {
+    position: absolute;
+top: 0;
+left: 0;
+}
+
+.score {
+    color: white;
+    position: absolute;
+    bottom: 0;
+    background-color: blue;
+    
+    border: solid 0.1vw black;
+    padding: 0.5vw;
+    font-size: 3vw;
+}
+
 .answers button {
     font-size: 3vw;
     display: block;

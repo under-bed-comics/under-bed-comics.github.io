@@ -1,5 +1,5 @@
 var values = [400, 800, 1200,  1600, 2000];
-
+var score = 0;
 var pictures = {
     'This code square is named after a Roman architect': 'vigenere.svg',
 };
@@ -10,9 +10,9 @@ var code = [
     {q:'Daily double', 
     as:['','','','']}, 
     {q:'This code square is named after a Roman architect', 
-    as:['Viguenere','Maximus','Ceaser','']},  // https://upload.wikimedia.org/wikipedia/commons/9/9a/Vigen%C3%A8re_square_shading.svg
+    as:['Vigenere','Maximus','Ceaser','']},  // https://upload.wikimedia.org/wikipedia/commons/9/9a/Vigen%C3%A8re_square_shading.svg
    {q: 'A common shift cipher was named after this roman leader, who also has a salad named after him', 
-   as:['Ceaser','Viguenere','Encycopaedius','']}, 
+   as:['Ceaser','Vigenere','Encyclopaedius','']}, 
     {q:'He created the World Wide Web', 
     as:['Tim Berners-Lee','Steve Wozniak','Ted Nelson','Albert Einstein']},
 ];
@@ -32,7 +32,7 @@ var movies = [
 
 var canadaHistory = [
    {q: 'He built Craigdarroch Castle ', 
-   as:['Robert Dunsmeir','Walt Diseny','King Henry III','']},
+   as:['Robert Dunsmeir','Walt Disney','King Henry III','']},
     {q:'This railway was built in 1881', 
     as:['CPR','Canada Line','Great Railway','']},
     {q:'Daily double', 
@@ -93,13 +93,13 @@ function areWeDoneYet() {
 }
 
 function askQuestion(q, picture, extraClass) {
-    var question = document.getElementById('question');
-    question.innerHTML = ''
+    var question = document.getElementById('question'); //get the question from the html document
+    question.innerHTML = '' // 
     question.setAttribute('class', 'question ' + extraClass);
 
-    board.setAttribute('class', 'board hidden');
+    board.setAttribute('class', 'board hidden'); // make board hide
 
-    var p = document.createElement('p');
+    var p = document.createElement('p'); // create a paragraph
     p.innerText = q;
     question.appendChild(p);
 
@@ -112,21 +112,42 @@ function askQuestion(q, picture, extraClass) {
     return question;
 }
 
-function showAnswers (q) {
+function showAnswers (q, callback) {
     var answers = document.getElementById('answers');
     answers.setAttribute('class', 'answers');
-    console.log(q.as);
+    answers.innerHTML = ''
 
+    var buttons = [];
     q.as.forEach(function(a, i) {
         if (a) {
             var button = document.createElement('button');
+            button.order = Math.random();
             button.innerHTML = a;
-            answers.appendChild(button);
+            buttons.push(button)
             button.onclick = function() {
-                console.log(a, i === 0);
+              answers.setAttribute( 'class', 'answers hidden');
+                var rightAnswer = i === 0;
+                callback(rightAnswer);
             };
         }
     });
+
+    //are there buttons?
+    // if yes add them all
+    // if no go back
+    if (buttons.length === 0){
+        answers.setAttribute( 'class', 'answers hidden');
+        callback();
+    } else {
+
+        buttons.sort(function(a,b){
+            return a.order - b.order;
+        })
+
+        buttons.forEach(function(button){
+            answers.appendChild(button);
+        });
+    }
 }
 
 values.forEach(function(value, idx) {
@@ -147,23 +168,41 @@ values.forEach(function(value, idx) {
             question.onclick = function() {
                 question.setAttribute('class', 'question hidden'); 
                 
-                showAnswers(q)
-                /// show answers
-                
-                // board.setAttribute('class', 'board');
+                showAnswers(q, function(rightAnswer) {
+                    if (rightAnswer === undefined){
+                        // daily double
+                        if (score < 0 ) {
+                            score = 0;
+                        } else {
+                            score = score *2;
+                        }
+                    } else if (rightAnswer){
+                        //add score
+                        score = score + value;
+                    }else{
+                        score = score - value;
+                    }
+                    // 
+                    var s = document.getElementById('score');
+                    s.setAttribute('class', 'score');
+                    s.innerHTML = '$' + score;
+                    
+                    td.onclick = function(){};
+                    board.setAttribute('class', 'board');
 
-                // var query = '#board td:nth-child(' + (c+1) + ').done';
-                // var answeredCells = document.querySelectorAll(query);
-                // var questionsDone = answeredCells.length;
-                
-                // if (column.questions.length === questionsDone) {
-                //     var colCell = document.getElementById(column.title);
-                //     colCell.setAttribute('class', 'done');
-                // }
+                    var query = '#board td:nth-child(' + (c+1) + ').done';
+                    var answeredCells = document.querySelectorAll(query);
+                    var questionsDone = answeredCells.length;
+                    
+                    if (column.questions.length === questionsDone) {
+                        var colCell = document.getElementById(column.title);
+                        colCell.setAttribute('class', 'done');
+                    }
 
-                // if (areWeDoneYet()) {
-                //     finalJeopardy();
-                // }
+                    if (areWeDoneYet()) {
+                        finalJeopardy();
+                    }
+                });
             }
         };
     });
@@ -175,10 +214,29 @@ function finalJeopardy() {
     q.onclick = function() {
         q = askQuestion('Games', undefined, 'category');
         q.onclick = function() {
-            askQuestion('In this game created by Ninja Kiwi with multiple sequels monkeys pop "bloons" as they go past');
+            q = askQuestion('In this game created by Ninja Kiwi with multiple sequels monkeys pop "bloons" as they go past');
+            q.onclick = function() {
+                q.setAttribute('class', 'question hidden'); 
+                const as = ['BTD 5','Vex 3','Zombs.IO','Slither.IO'];
+                showAnswers({as}, function(rightAnswer) {
+
+                   if (rightAnswer) {
+                       score = score + 5000;
+                    } else  {
+                        score = score - 5000;
+                    }
+                    var s = document.getElementById('score');
+                    s.setAttribute('class', 'hidden');
+                    askQuestion ('Final Score\n$'+ score);                
+                });
+            };
         };
     };    
 }
+var restart = document.getElementById('restart');
+restart.onclick = function(){
+    location.reload();
+};
 
 function start() {
     var q = askQuestion('Jeopardy!', undefined, 'final');
