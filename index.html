@@ -3,32 +3,38 @@ layout: default
 ---
 
 <div class="home">
-
   <ul class="post-list">
     {% for post in site.posts %}
-      <li>
-        <h2>
-          <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-        </h2>
-      </li>
+    <li>
+      <h2>
+        <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{
+          post.title
+        }}</a>
+      </h2>
+    </li>
     {% endfor %}
   </ul>
 
   <ul class="game-list">
-      <li>
-        <h2>
-          <a class="game-link" href="/jumpers">Jumpers</a>
-        </h2>
-      </li>
-      <li>
-        <h2>
-          <a class="game-link" href="/shadows">The Shadows</a>
-        </h2>
-      </li>      
-      <li>
-          <h2>
-            <a class="game-link" href="/jeopardy">Jeopardy!</a>
-          </h2>
-        </li>      
-    </ul>
+    <li>
+      <h2>
+        <a class="game-link" href="/jumpers">Jumpers</a>
+      </h2>
+    </li>
+    <li>
+      <h2>
+        <a class="game-link" href="/shadows">The Shadows</a>
+      </h2>
+    </li>
+    <li>
+      <h2>
+        <a class="game-link" href="/jeopardy">Jeopardy!</a>
+      </h2>
+    </li>
+    <li>
+      <h2>
+        <a class="game-link" href="/the-mourning-star">The Mourning Star</a>
+      </h2>
+    </li>
+  </ul>
 </div>
